@@ -77,7 +77,6 @@
                 page: 1
             };
 
-            // 1. AJAX Load Function
             async function loadExercises() {
                 if(loader) loader.style.display = "flex";
                 
@@ -92,20 +91,15 @@
                     const res = await fetch(`/Main/FilterExercises?${query}`);
                     const html = await res.text();
 
-                    // Зберігаємо лоадер
                     const savedLoader = container.querySelector('#loadingSpinner');
                     
-                    // Парсимо новий HTML
                     const tempDiv = document.createElement('div');
                     tempDiv.innerHTML = html;
 
-                    // Очищаємо контейнер 
                     container.innerHTML = '';
                     
-                    // Додаємо лоадер назад (він буде схований через finally)
                     if(savedLoader) container.appendChild(savedLoader);
                     
-                    // Додаємо новий контент
                     while (tempDiv.firstChild) {
                         container.appendChild(tempDiv.firstChild);
                     }
@@ -117,7 +111,6 @@
                 }
             }
 
-            // 2. Debounce Helper
             function debounce(func, wait) {
                 let timeout;
                 return function(...args) {
@@ -126,7 +119,6 @@
                 };
             }
 
-            // 3. Filter Change Handler
             const onFilterChange = debounce(() => {
                 state.page = 1;
                 state.search = searchInput.value;
@@ -135,12 +127,10 @@
                 loadExercises();
             }, 400);
 
-            // 4. Event Listeners
             searchInput.addEventListener("input", onFilterChange);
             typeSelect.addEventListener("change", onFilterChange);
             statusRadios.forEach(r => r.addEventListener("change", onFilterChange));
 
-            // 5. Pagination Handler (Delegation)
             container.addEventListener("click", (e) => {
                 if (e.target.classList.contains("page-link")) {
                     e.preventDefault();

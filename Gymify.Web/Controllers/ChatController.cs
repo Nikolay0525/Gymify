@@ -37,7 +37,6 @@ namespace Gymify.Web.Controllers
             return RedirectToAction("Index", new { openChatId = chatId });
         }
 
-        // API: Отримати список чатів (JSON)
         [HttpGet]
         public async Task<IActionResult> GetMyChats()
         {

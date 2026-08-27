@@ -17,10 +17,10 @@ public class MessageRepository(GymifyDbContext context)
             .Include(m => m.Sender)
                 .ThenInclude(u => u.ApplicationUser)
             .Include(m => m.Sender.Equipment.Avatar)
-            .OrderByDescending(m => m.CreatedAt) // Спочатку нові (для пагінації вверх)
+            .OrderByDescending(m => m.CreatedAt) 
             .Skip(skip)
             .Take(take)
-            .ToListAsync(); // Повернемо в зворотньому порядку на клієнті або тут
+            .ToListAsync(); 
     }
 
     public async Task<Message> FindLastMessageAsync(Guid chatId)

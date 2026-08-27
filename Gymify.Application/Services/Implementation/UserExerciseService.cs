@@ -69,7 +69,7 @@ public class UserExerciseService(IUnitOfWork unitOfWork, INotificationService no
                         NameUk = ukranianVer ? dto.Name : string.Empty,
                         DescriptionUk = string.Empty,
                         Type = (ExerciseType)dto.ExerciseType,
-                        BaseXP = DefaultPendingExerciseXP, // 10
+                        BaseXP = DefaultPendingExerciseXP, 
                         DifficultyMultiplier = 1.0,
                         IsApproved = false,
                         IsRejected = false

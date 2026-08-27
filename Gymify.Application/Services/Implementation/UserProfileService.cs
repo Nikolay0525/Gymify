@@ -166,8 +166,7 @@ public class UserProfileService
     public async Task<UserProfileViewModel> GetUserProfileModel(Guid currentUserProfileId,Guid userProfileId, bool ukranianVer)
     {
         var currentUser = await _unitOfWork.UserProfileRepository.GetAllCredentialsAboutUserByIdAsync(currentUserProfileId);
-        if (currentUser == null) throw new Exception("Current user profile not found"); // Бажано теж перевірити
-        var avatar = await _unitOfWork.ItemRepository.GetByIdAsync(currentUser.Equipment.AvatarId);
+        if (currentUser == null) throw new Exception("Current user profile not found");         var avatar = await _unitOfWork.ItemRepository.GetByIdAsync(currentUser.Equipment.AvatarId);
 
         var userCredentials = await _unitOfWork.UserProfileRepository.GetAllCredentialsAboutUserByIdAsync(userProfileId);
         if (userCredentials == null) throw new NullReferenceException($"When we were looking for userCredentials by '{userProfileId}' id we not found according application user");

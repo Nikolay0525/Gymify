@@ -98,14 +98,12 @@ namespace Gymify.Web.Controllers
         [HttpPost]
         public IActionResult SetLanguage(string culture, string returnUrl)
         {
-            // Встановлюємо кукі з вибраною культурою
             Response.Cookies.Append(
                 CookieRequestCultureProvider.DefaultCookieName,
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
-                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) } // Запам'ятати на рік
+                new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
             );
 
-            // Повертаємо користувача на ту сторінку, де він був
             return LocalRedirect(returnUrl);
         }
     }

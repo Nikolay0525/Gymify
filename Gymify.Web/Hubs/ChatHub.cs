@@ -1,6 +1,6 @@
 ﻿using Gymify.Application.DTOs.Chat;
 using Gymify.Application.DTOs.Comment;
-using Gymify.Application.Services.Implementation; // Переконайтеся, що тут правильний namespace трекера
+using Gymify.Application.Services.Implementation;
 using Gymify.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;

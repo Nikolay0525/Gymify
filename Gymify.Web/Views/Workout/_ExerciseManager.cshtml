@@ -113,14 +113,14 @@
 
 <script>
     (function() {
-        // --- LOCALIZATION BRIDGE ---
+        
         const JS_RESOURCES = {
             msgSaved: '@Localizer["Msg_Saved"]',
             msgError: '@Localizer["Msg_Error"]',
             btnSaving: '@Localizer["Btn_Saving"]',
             btnSaveChanges: '@Localizer["Btn_SaveChanges"]',
             msgExerciseNameRequired: '@Localizer["Msg_ExerciseNameRequired"]', 
-            msgNameTooShort: '@Localizer["Msg_NameTooShort"]', // НОВИЙ КЛЮЧ
+            msgNameTooShort: '@Localizer["Msg_NameTooShort"]', 
             msgValidationFailedTitle: '@Localizer["Msg_ValidationFailedTitle"]'
         };
 
@@ -203,7 +203,7 @@
             if(emptyMsg) emptyMsg.style.display = hasItems ? "none" : "block";
         }
 
-        // Search logic
+        
         let timeout;
         if(inName) {
             inName.addEventListener("input", function() {
@@ -230,7 +230,7 @@
             document.addEventListener("click", e => { if (e.target !== inName && suggestions) suggestions.style.display = "none"; });
         }
 
-        // UUID
+        
         function generateUUID() {
             if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') return crypto.randomUUID();
             return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c => (c ^ (typeof crypto !== 'undefined' ? crypto.getRandomValues(new Uint8Array(1))[0] : 0) & 15 >> c / 4).toString(16));
@@ -240,24 +240,24 @@
             btnAdd.addEventListener("click", () => {
                 const name = inName.value.trim();
                 
-                // --- ВАЛІДАЦІЯ ---
                 
-                // 1. Перевірка на пустоту
+                
+                
                 if (!name) { 
                     showError(JS_RESOURCES.msgExerciseNameRequired);
                     inName.focus();
                     return;
                 }
 
-                // 2. Перевірка на довжину (мін 3 символи)
-                // Максимум 30 обмежується HTML атрибутом maxlength="30"
+                
+                
                 if (name.length < 3) {
                     showError(JS_RESOURCES.msgNameTooShort);
                     inName.focus();
                     return;
                 }
 
-                // Всередині btnAdd.addEventListener
+                
                 const data = {
                     id: generateUUID(),
                     name: name,
@@ -281,7 +281,7 @@
             }
         }
 
-        // Cancel / Save logic (Buttons)
+        
         const btnCancel = document.getElementById("mgrBtnCancel");
         const btnSave = document.getElementById("mgrBtnSave");
         const statusMsg = document.getElementById("mgrSaveStatus");
@@ -373,7 +373,7 @@
             });
         }
 
-        // Init
+        
         bindRemoveEvents();
         checkEmpty();
 

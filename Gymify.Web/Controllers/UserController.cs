@@ -34,7 +34,7 @@ namespace Gymify.Web.Controllers
         private readonly UserManager<ApplicationUser> _userManager = userManager;
         private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
 
-        [HttpGet("profile")]  // URL: /profile
+        [HttpGet("profile")]
         public async Task<IActionResult> Profile(Guid userId)
         {
             var loggedUserId = Guid.Parse(User.FindFirst("UserProfileId")!.Value);
@@ -115,7 +115,7 @@ namespace Gymify.Web.Controllers
             return Ok();
         }
 
-        [HttpGet("inventory")] // URL: /inventory
+        [HttpGet("inventory")]
         public async Task<IActionResult> Inventory()
         {
             var userId = Guid.Parse(User.FindFirst("UserProfileId")!.Value);

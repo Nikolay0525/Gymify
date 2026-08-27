@@ -14,9 +14,7 @@
     <div class="achievements-grid">
         @foreach (var a in Model)
         {
-            // Розрахунок відсотка
             var percent = a.TargetValue == 0 ? 0 : (int)Math.Floor(a.Progress / (double)a.TargetValue * 100);
-            // Захист від переповнення (не більше 100%)
             if (percent > 100) percent = 100;
 
             var cardClass = a.IsCompleted ? "is-completed" : "is-locked";
@@ -28,10 +26,6 @@
                 </div>
 
                 <div class="achievement-info">
-                    @* Примітка: Name та Description приходять з БД.
-                       Якщо хочете їх перекладати, в БД мають бути ключі ресурсів, 
-                       тоді тут було б @Localizer[a.Name] 
-                    *@
                     <h3>@a.Name</h3>
                     <p>@a.Description</p>
                 </div>

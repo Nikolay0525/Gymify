@@ -89,20 +89,17 @@
 </div>
 
 <script>
-    // Робимо функції глобальними
     window.openVideoModal = function(embedUrl) {
         if (!embedUrl) return;
 
         const overlay = document.getElementById('aeVideoOverlay');
         const frame = document.getElementById('aeVideoFrame');
 
-        // Додаємо autoplay=1, щоб відео почалось відразу
-        // Також додаємо rel=0, щоб не показувати схожі відео з інших каналів
         const separator = embedUrl.includes('?') ? '&' : '?';
         frame.src = `${embedUrl}${separator}autoplay=1&rel=0`;
 
         overlay.classList.add('open');
-        document.body.style.overflow = 'hidden'; // Блокуємо скрол сторінки
+        document.body.style.overflow = 'hidden';
     };
 
     window.closeVideoModal = function() {
@@ -111,14 +108,12 @@
 
         overlay.classList.remove('open');
 
-        // Чекаємо завершення анімації (0.3s) перед очищенням src
         setTimeout(() => {
-            frame.src = ""; // Зупиняємо звук/відео
-            document.body.style.overflow = ''; // Розблоковуємо скрол
+            frame.src = "";
+            document.body.style.overflow = '';
         }, 300);
     };
 
-    // Закриття по ESC
     document.addEventListener('keydown', function(e) {
         if (e.key === "Escape") {
             const overlay = document.getElementById('aeVideoOverlay');

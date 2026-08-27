@@ -73,22 +73,13 @@
         <script>
             document.addEventListener('DOMContentLoaded', function () {
 
-                // === HEATMAP LOGIC (RED -> GREEN) ===
                 function getXPColor(xp, min, max) {
-                    // Якщо всі тренування мають однаковий XP або це одне тренування -> даємо зелений
                     if (max === min) return 'hsl(120, 80%, 90%)'; 
 
-                    // Нормалізуємо значення від 0 до 1
                     const percentage = (xp - min) / (max - min);
 
-                    // HSL Hue: 
-                    // 0 = Червоний (мало XP)
-                    // 60 = Жовтий (середньо)
-                    // 120 = Зелений (багато XP)
                     const hue = percentage * 120;
 
-                    // Повертаємо пастельний колір (Lightness 90%, Saturation 80%)
-                    // Щоб текст залишався читабельним
                     return `hsl(${hue}, 80%, 90%)`;
                 }
 
@@ -115,7 +106,6 @@
                         const xp = parseInt(w.dataset.workoutXp, 10);
                         if (!isNaN(xp)) {
                             w.style.backgroundColor = getXPColor(xp, minXP, maxXP);
-                            // Оскільки фон пастельний, текст залишаємо темним
                             w.style.color = '#333';
                         }
                     });
