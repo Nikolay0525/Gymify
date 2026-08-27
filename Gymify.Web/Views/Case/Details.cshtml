@@ -56,7 +56,6 @@
 
 @section Scripts {
     <script>
-        // --- LOCALIZATION BRIDGE ---
         const JS_RESOURCES = {
             btnOpenCase: '@Localizer["Btn_OpenCase"]',
             btnOpening: '@Localizer["Btn_Opening"]',
@@ -70,7 +69,6 @@
         const resultModal = document.getElementById("resultModal");
         const resetBtn = document.getElementById("resetRouletteBtn");
 
-        // === OPEN CASE LOGIC ===
         openButton.addEventListener("click", async (e) => {
             e.preventDefault();
 
@@ -106,7 +104,6 @@
                     strip.appendChild(div);
                 });
 
-                // Animation Calc
                 const itemWidth = 120; 
                 const itemMargin = 12; 
                 const totalItemWidth = itemWidth + itemMargin;
@@ -118,13 +115,11 @@
                 const randomJitter = Math.floor(Math.random() * 30) - 15;
                 const finalOffset = targetOffset + randomJitter;
 
-                // Start
                 setTimeout(() => {
                     strip.style.transition = 'transform 4s cubic-bezier(0.15, 1, 0.3, 1)'; 
                     strip.style.transform = `translateX(-${finalOffset}px)`;
                 }, 50);
 
-                // Result
                 setTimeout(() => {
                     document.getElementById("dropImage").src = data.imageURL;
                     document.getElementById("dropName").textContent = data.name;
@@ -149,7 +144,6 @@
             }
         });
 
-        // === RESET LOGIC ===
         resetBtn.addEventListener('click', () => {
             resultModal.classList.add("hidden");
             openButton.disabled = false;

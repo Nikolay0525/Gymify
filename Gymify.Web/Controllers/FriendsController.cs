@@ -47,7 +47,7 @@ namespace Gymify.Web.Controllers
             try
             {
                 await _friendsService.SendFriendRequestAsync(userId, receiverId);
-                return Ok(); // Або перенаправлення
+                return Ok();
             }
             catch (Exception ex) { return BadRequest(ex.Message); }
         }
@@ -77,14 +77,13 @@ namespace Gymify.Web.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> RemoveFriend(Guid friendId) // Перевірте назву змінної!
+        public async Task<IActionResult> RemoveFriend(Guid friendId)
         {
             try
             {
                 var currentUserId = Guid.Parse(User.FindFirst("UserProfileId").Value);
                 await _friendsService.RemoveFriendAsync(currentUserId, friendId);
 
-                // ВАЖЛИВО: Повертаємо Ok (JSON), а не Redirect!
                 return Ok(new { success = true });
             }
             catch (Exception ex)

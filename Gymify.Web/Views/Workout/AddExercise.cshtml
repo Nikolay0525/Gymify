@@ -16,7 +16,6 @@
         <p class="ae-lead-text">@Localizer["Header_Subtitle"]</p>
     </div>
 
-    @* Partial View рендерить форму з ID "mgrForm" *@
     <partial name="_ExerciseManager" 
              model="Model" 
              view-data='@new ViewDataDictionary(ViewData) { ["HideSaveButtons"] = true }' />
@@ -44,11 +43,10 @@
 
 @section Scripts {
     <script>
-        // Localization bridge
         const JS_RESOURCES = {
             btnSaving: '@Localizer["Btn_Saving"]',
             msgError: '@Localizer["Msg_ErrorSaving"]',
-            msgValidationFailedTitle: '@Localizer["Msg_ValidationFailedTitle"]' // Додано заголовок для помилок
+            msgValidationFailedTitle: '@Localizer["Msg_ValidationFailedTitle"]' 
         };
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -68,16 +66,13 @@
                         body: formData
                     })
                     .then(response => {
-                        // Якщо успіх - просто повертаємо JSON (або true)
                         if (response.ok) return response.json();
                         
-                        // Якщо помилка (400 Bad Request тощо) - парсимо JSON з помилками і кидаємо виключення
                         return response.json().then(data => {
                             throw { serverData: data, status: response.status };
                         });
                     })
                     .then(data => {
-                        // УСПІХ: Перенаправляємо на сторінку Finish
                         window.location.href = btnFinish.getAttribute("data-url");
                     })
                     .catch(error => {
@@ -85,26 +80,21 @@
                         
                         let displayMessage = JS_RESOURCES.msgError;
 
-                        // === ЛОГІКА ОБРОБКИ ПОМИЛОК (ідентична до _ExerciseManager) ===
                         if (error.serverData && error.serverData.errors) {
                             const errors = error.serverData.errors;
                             let errorDetails = "";
                             let indexMap = {};
 
-                            // 1. Створюємо мапу: індекс масиву -> назва вправи з input
-                            // Шукаємо картки всередині форми (яка рендериться через Partial)
                             form.querySelectorAll(".ae-item-card").forEach((card, index) => {
                                 const nameInput = card.querySelector(".inp-name");
                                 const name = nameInput ? nameInput.value : `Exercise #${index + 1}`;
                                 indexMap[`exercises[${index}].`] = `**${name}**: `;
                             });
 
-                            // 2. Формуємо HTML список помилок
                             for (const key in errors) {
                                 if (errors.hasOwnProperty(key) && errors[key].length > 0) {
                                     let exerciseName = "";
                                     
-                                    // Намагаємося знайти префікс (наприклад "exercises[0].") у ключі помилки
                                     for (const prefix in indexMap) {
                                         if (key.toLowerCase().startsWith(prefix.toLowerCase())) {
                                             exerciseName = indexMap[prefix];
@@ -117,23 +107,19 @@
                                 }
                             }
                             
-                            // 3. Якщо вдалося зібрати деталі, формуємо повідомлення
                             if (errorDetails) {
                                 displayMessage = `<strong>${JS_RESOURCES.msgValidationFailedTitle}</strong>:<br>${errorDetails}`;
                             } else if (error.serverData.message) {
                                 displayMessage = error.serverData.message;
                             }
                         }
-                        // ==============================================================
 
-                        // Відображення через alertify
                         if(typeof alertify !== 'undefined') {
-                            alertify.error(displayMessage, 0); // 0 = не зникає саме по собі, поки юзер не клікне (для довгих помилок)
+                            alertify.error(displayMessage, 0); 
                         } else {
-                            alert(displayMessage.replace(/<[^>]*>?/gm, '')); // Видаляємо HTML теги для звичайного alert
+                            alert(displayMessage.replace(/<[^>]*>?/gm, '')); 
                         }
                         
-                        // Повертаємо кнопку в початковий стан
                         btnFinish.disabled = false;
                         btnFinish.innerHTML = originalText;
                     });

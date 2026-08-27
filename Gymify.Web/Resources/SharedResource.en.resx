@@ -123,10 +123,6 @@
   <data name="EmailInvalid" xml:space="preserve">
     <value>Please enter a valid email address.</value>
   </data>
-  <data name="Msg_DurationPositive" xml:space="preserve">
-    <value>Duration in minutes must be a non-negative number.</value>
-    <comment>Серверна валідація DTO (Data Annotation).</comment>
-  </data>
   <data name="Msg_ExerciseNameRequired" xml:space="preserve">
     <value>Please enter an exercise name.</value>
     <comment>Клієнтська (JS) та Серверна (DTO) валідація.</comment>
@@ -148,32 +144,20 @@
     <value>Each exercise must have at least one positive value (repetitions, weight, or duration).</value>
     <comment>Валідація на рівні бізнес-логіки в контролері.</comment>
   </data>
-  <data name="Msg_RepsPositive" xml:space="preserve">
-    <value>Repetitions must be a non-negative number.</value>
-    <comment>Серверна валідація DTO (Data Annotation).</comment>
-  </data>
-  <data name="Msg_SetsMustBePositive" xml:space="preserve">
-    <value>The number of Sets must be between 1 and 100.</value>
-    <comment>Серверна валідація DTO (Data Annotation).</comment>
-  </data>
   <data name="Msg_SetsRequired" xml:space="preserve">
-    <value>The number of Sets is required.</value>
+    <value>The number of sets is required.</value>
     <comment>Серверна валідація DTO.</comment>
   </data>
   <data name="Msg_ValidationFailedTitle" xml:space="preserve">
     <value>Failed to save exercises due to errors:</value>
     <comment>Заголовок для повідомлення про помилку валідації в alertify.</comment>
   </data>
-  <data name="Msg_WeightPositive" xml:space="preserve">
-    <value>Weight must be a non-negative number.</value>
-    <comment>Серверна валідація DTO (Data Annotation).</comment>
-  </data>
   <data name="NameLength" xml:space="preserve">
     <value>The name must have length from {2} to {1} characters.</value>
     <comment>{1} – Max Length, {2} – Min Length</comment>
   </data>
   <data name="PasswordLength" xml:space="preserve">
-    <value>The {0} must be at least {1} characters.</value>
+    <value>The password must have length from {2} to {1} characters.</value>
     <comment>{0} – Field Name, {1} – Min Length</comment>
   </data>
   <data name="PasswordMismatch" xml:space="preserve">
@@ -189,5 +173,21 @@
   </data>
   <data name="UsernameLettersNumbersUnderscores" xml:space="preserve">
     <value>The username can only have letters, numbers and underscores in it.</value>
+  </data>
+  <data name="Msg_RepsRange" xml:space="preserve">
+    <value>The number of repetitions must be between {1} and {2} units.</value>
+    <comment>Серверна валідація DTO (Data Annotation).</comment>
+  </data>
+  <data name="Msg_SetsRange" xml:space="preserve">
+    <value>The number of sets must be between {1} and {2} units.</value>
+    <comment>Серверна валідація DTO (Data Annotation).</comment>
+  </data>
+  <data name="Msg_WeightRange" xml:space="preserve">
+    <value>The number of weight must be between {1} and {2} units.</value>
+    <comment>Серверна валідація DTO (Data Annotation).</comment>
+  </data>
+  <data name="Msg_DurationRange" xml:space="preserve">
+    <value>The duration must have range from {1} and {2} minutes.</value>
+    <comment>Серверна валідація DTO (Data Annotation).</comment>
   </data>
 </root>

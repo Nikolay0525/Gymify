@@ -121,25 +121,18 @@
                 const goToCasePageBtn = document.getElementById("goToCasePageBtn");
                 const modalCaseId = document.getElementById("modalCaseId");
 
-                // Fill Data
                 nameEl.textContent = ds.name;
-                // Тут ми вставляємо локалізований рядок, якщо опису немає
                 descEl.textContent = ds.description || "@Localizer["Msg_NoDescription"]";
 
-                // Rarity Logic
                 if (ds.rarity) {
                     rarityBadge.textContent = ds.rarity;
-                    // Reset classes and add specific rarity class
                     rarityBadge.className = 'rarity-badge';
-                    // Note: This relies on English rarity names for CSS (e.g. rarity-common). 
-                    // If your DB returns localized rarity names, CSS might break.
                     rarityBadge.classList.add(`rarity-${ds.rarity.toLowerCase()}`);
                     rarityBadge.style.display = "inline-block";
                 } else {
                     rarityBadge.style.display = "none";
                 }
 
-                // Image vs Title Logic
                 if (ds.istitle === "True") {
                     imgEl.style.display = "none";
                     titlePreviewEl.style.display = "flex";
@@ -154,7 +147,6 @@
                     }
                 }
 
-                // Case Logic
                 if (ds.type === "case") {
                     goToCasePageBtn.classList.remove("hidden");
                     modalCaseId.value = ds.id;
@@ -171,7 +163,6 @@
                 document.getElementById("itemModal").classList.add("hidden");
             }
 
-            // Close on click outside
             document.getElementById("itemModal").addEventListener('click', (e) => {
                 if (e.target === e.currentTarget) closeModal();
             });

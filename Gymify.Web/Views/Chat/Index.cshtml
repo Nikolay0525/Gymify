@@ -96,7 +96,6 @@
 
 @section scripts {
     <script>
-        // --- CONFIG & RESOURCES ---
         const JS_RESOURCES = {
             loading: '@Localizer["Msg_Loading"]',
             noMessages: '@Localizer["Msg_NoMessages"]',
@@ -117,7 +116,6 @@
         const currentUserId = "@currentUserId";
         let editingMessageId = null;
 
-        // Elements
         const chatMain = document.getElementById('chatMainArea');
         const msgInput = document.getElementById('msgInput');
         const messagesArea = document.getElementById('messagesArea');
@@ -125,7 +123,6 @@
         const sendBtn = document.getElementById('sendBtn');
         const cancelEditBtn = document.getElementById('cancelEditBtn');
 
-        // --- UI LOGIC ---
         msgInput.addEventListener('input', function() {
             this.style.height = 'auto'; 
             this.style.height = (this.scrollHeight) + 'px'; 
@@ -140,7 +137,6 @@
             if (e.key === 'Escape' && editingMessageId) cancelEditMode(); 
         });
 
-        // --- SIGNALR ---
         const chatConnection = new signalR.HubConnectionBuilder()
             .withUrl("/chatHub")
             .withAutomaticReconnect()
@@ -195,12 +191,10 @@
         }
         startSignalR();
 
-        // --- CORE FUNCTIONS ---
 
         async function openChat(chatId, name, avatarUrl, targetUserId, el) {
             cancelEditMode();
             
-            // UI Sidebar Update
             document.querySelectorAll('.ch-item').forEach(i => i.classList.remove('active'));
             if(el) {
                 el.classList.add('active');
@@ -215,7 +209,6 @@
                 }
             }
 
-            // Show Chat Area
             chatMain.classList.add('active'); 
             
             document.getElementById('chatPlaceholder').classList.add('hidden');
@@ -235,7 +228,6 @@
                 headerLink.style.pointerEvents = "none";
             }
 
-            // Join SignalR Group
             if (chatConnection.state === "Connected") {
                 try {
                     if (currentChatId) await chatConnection.invoke("LeaveChat", currentChatId);
@@ -246,7 +238,6 @@
                 currentChatId = chatId;
             }
 
-            // Load History
             messagesArea.innerHTML = `<div style="text-align:center; padding:20px; color:#ccc;">${JS_RESOURCES.loading}</div>`;
             try {
                 const res = await fetch(`/Chat/GetHistory?chatId=${chatId}`);
@@ -288,7 +279,6 @@
             }
         }
 
-        // --- HELPER FUNCTIONS ---
         function incrementUnreadBadge(chatId) {
             const badge = document.getElementById(`badge-${chatId}`);
             if (badge) {
@@ -304,9 +294,9 @@
                 await fetch('/Chat/MarkAsRead', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json' // Обов'язково вказуємо тип контенту
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(chatId) // Перетворюємо GUID в JSON-рядок "xxxxxxxx-xxxx..."
+                    body: JSON.stringify(chatId)
                 });
             } catch (e) {
                 console.error("Failed to mark as read", e);
@@ -397,7 +387,6 @@
             messagesArea.insertAdjacentHTML('beforeend', html);
         }
 
-        // --- EDIT & DELETE LOGIC ---
         function enableEditMode(msgId, content) {
             const contentDiv = document.getElementById(`content-${msgId}`);
             const currentText = contentDiv ? contentDiv.innerText : content;

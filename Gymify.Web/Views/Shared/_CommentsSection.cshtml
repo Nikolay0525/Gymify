@@ -83,7 +83,6 @@
 
 <script>
     (function() {
-        // --- LOCALIZATION BRIDGE ---
         const JS_RESOURCES = {
             btnPost: '@Localizer["Btn_PostComment"]',
             btnPosting: '@Localizer["Btn_Posting"]',
@@ -119,7 +118,6 @@
             });
         }
 
-        // --- POST COMMENT ---
         if(form) {
             form.addEventListener('submit', async (e) => {
                 e.preventDefault();
@@ -204,7 +202,6 @@
             return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
         }
 
-        // --- EDIT LOGIC ---
         window.editCommentStart = function(id) {
             const textView = document.getElementById(`text-${id}`);
             const editView = document.getElementById(`edit-area-${id}`);
@@ -275,7 +272,6 @@
             } catch (e) { console.error(e); }
         };
 
-        // --- DELETE LOGIC (UPDATED WITH ALERTIFY) ---
         window.deleteCommentNode = function(btn, id) {
             alertify.confirm(
                 'Gymify',
@@ -298,7 +294,7 @@
                                 item.remove();
                                 const remainingItems = list.querySelectorAll('.co-item');
                                 if (remainingItems.length === 0 && emptyMsg) {
-                                    emptyMsg.classList.remove('hidden'); // Повертаємо напис
+                                    emptyMsg.classList.remove('hidden');
 
                                     emptyMsg.style.opacity = '0';
                                     requestAnimationFrame(() => {

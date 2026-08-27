@@ -14,12 +14,10 @@
         <h1 class="wd-title">@Localizer["Header_Community"]</h1>
     </div>
 
-    @* --- ЗАГОЛОВОК І ТАБИ --- *@
     <div class="friends-header">
         <div class="friends-tabs">
             <button class="friends-tab-btn active" onclick="switchTab('friends')" id="btn-friends">
                 @Localizer["Tab_MyFriends"] 
-                @* ID для оновлення лічильника *@
                 <span id="friendsCount" style="font-weight:normal; font-size:0.9em; opacity:0.7;">(@Model.Friends.Count)</span>
             </button>
             <button class="friends-tab-btn" onclick="switchTab('requests')" id="btn-requests">
@@ -35,10 +33,8 @@
         </div>
     </div>
 
-    @* --- ТАБ: МОЇ ДРУЗІ --- *@
     <div id="tab-friends" class="ae-tab-content fade-in">
         
-        @* Порожній стан (при завантаженні) *@
         @if (!Model.Friends.Any())
         {
             <div class="friends-empty">
@@ -49,7 +45,6 @@
         }
         else
         {
-            @* Прихований порожній стан (для JS, якщо видалимо всіх) *@
             <div id="friendsEmptyState" class="friends-empty" style="display: none;">
                 <i class="fa-solid fa-user-group"></i>
                 <p>@Localizer["Msg_NoFriendsYet"]</p>
@@ -78,7 +73,6 @@
                                 <i class="fa-solid fa-user" style="margin-right: 8px;"></i> @Localizer["Btn_Profile"]
                             </a>
 
-                            @* Кнопка видалення (AJAX) *@
                             <button type="button" class="gym-btn gym-btn-danger w-100" style="padding: 10px;"
                                     onclick="removeFriend(this, '@f.ProfileId', '@f.UserName')">
                                 <i class="fa-solid fa-user-xmark" style="margin-right: 8px;"></i> @Localizer["Btn_Remove"]
@@ -90,10 +84,8 @@
         }
     </div>
 
-    @* --- ТАБ: ЗАЯВКИ --- *@
     <div id="tab-requests" class="ae-tab-content hidden fade-in">
         
-        @* Вхідні заявки *@
         <div class="friends-section-title">@Localizer["Header_IncomingRequests"] <span style="font-weight:normal;">(@Model.IncomingRequests.Count)</span></div>
         @if (!Model.IncomingRequests.Any())
         {
@@ -127,7 +119,6 @@
 
         <div class="ae-separator"></div>
 
-        @* Вихідні заявки *@
         <div class="friends-section-title">@Localizer["Header_SentRequests"] <span style="font-weight:normal;" id="sentCount">(@Model.OutgoingRequests.Count)</span></div>
         <div id="outgoingList">
             @if (!Model.OutgoingRequests.Any())
@@ -145,7 +136,6 @@
                         </div>
                     </a>
                     
-                    @* Кнопка скасування (AJAX) *@
                     <button type="button" class="gym-btn gym-btn-danger" style="padding: 6px 15px; font-size: 13px;"
                             onclick="cancelRequest(this, '@r.ProfileId')">
                         <i class="fa-solid fa-xmark" style="margin-right: 5px;"></i> @Localizer["Btn_Cancel"]
@@ -155,7 +145,6 @@
         </div>
     </div>
 
-    @* --- ТАБ: ПОШУК --- *@
     <div id="tab-search" class="ae-tab-content hidden fade-in">
         <h4 class="friends-section-title">@Localizer["Header_SearchResults"]</h4>
         <div id="searchResults" class="ae-cards-grid"></div>
@@ -164,7 +153,6 @@
 
 @section Scripts {
     <script>
-        // --- РЕСУРСИ ЛОКАЛІЗАЦІЇ ---
         const JS_RESOURCES = {
             labelSearching: '@Localizer["Msg_Searching"]',
             msgNoUsersFound: '@Localizer["Msg_NoUsersFound"]',
@@ -183,7 +171,6 @@
             msgNoSentRequests: '@Localizer["Msg_NoSentRequests"]',
             labelLevel: '@Localizer["Label_Level"]',
             
-            // Нові ресурси
             msgSuccess: "@Localizer["Msg_Success"]",
             msgConfirmRemove: '@Localizer["Msg_ConfirmRemove", "USER_NAME_PLACEHOLDER"]', 
             msgFriendRemoved: '@Localizer["Msg_FriendRemoved"]', 
@@ -203,7 +190,6 @@
             }
         }
 
-        // --- ВИДАЛЕННЯ ДРУГА (Robust AJAX) ---
         async function removeFriend(btn, friendId, userName) {
             const confirmText = JS_RESOURCES.msgConfirmRemove
                 .replace("USER_NAME_PLACEHOLDER", userName)
@@ -213,7 +199,6 @@
                 'Gymify', 
                 confirmText, 
                 async function() { 
-                    // Зберігаємо початковий стан
                     const originalContent = btn.innerHTML;
                     btn.disabled = true;
                     btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
@@ -248,7 +233,6 @@
                         console.error("Network Error:", error);
                         if (typeof alertify !== 'undefined') alertify.error(JS_RESOURCES.msgNetworkError);
                     } finally {
-                        // Завжди повертаємо кнопку до життя
                         btn.disabled = false;
                         btn.innerHTML = originalContent;
                     }
@@ -257,7 +241,6 @@
             ).set('labels', {ok:'Yes', cancel:'No'});
         }
 
-        // --- СКАСУВАННЯ ЗАЯВКИ (Robust AJAX) ---
         async function cancelRequest(btn, id) {
             alertify.confirm(
                 'Gymify', 
@@ -332,7 +315,6 @@
             }
         }
 
-        // --- ДОДАВАННЯ НОВОГО ЗАПИТУ (Для відображення) ---
         function addToOutgoingList(id, userName, avatarUrl) {
             const countSpan = document.getElementById('sentCount');
             if (countSpan) {
@@ -364,7 +346,6 @@
             list.insertAdjacentHTML('afterbegin', html);
         }
 
-        // --- ПОШУК (Стандартний) ---
         function debounce(func, wait) {
             let timeout;
             return function(...args) {

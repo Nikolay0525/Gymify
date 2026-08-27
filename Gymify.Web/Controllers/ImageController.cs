@@ -22,20 +22,17 @@ namespace Gymify.Web.Controllers
             _itemService = itemService;
         }
 
-        // GET: /Image
         public async Task<IActionResult> Index()
         {
             var images = await _imageService.GetAllImagesAsync();
             return View(images);
         }
 
-        // GET: /Image/Upload
         public IActionResult Upload()
         {
             return View();
         }
 
-        // POST: /Image/Upload
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upload(IFormFile file, string fileName, string title)

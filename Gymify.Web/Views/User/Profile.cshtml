@@ -129,7 +129,6 @@
 
 <script>
     (() => {
-        // --- 1. LOCALIZATION BRIDGE ---
         const JS_RESOURCES = {
             btnEdit: '@Localizer["Btn_Edit"]',
             btnSaveChanges: '@Localizer["Btn_SaveChanges"]',
@@ -158,9 +157,8 @@
             msgErrorUpload: '@Localizer["Msg_ErrorUpload"]',
             msgErrorGeneric: '@Localizer["Msg_ErrorGeneric"]',
 
-            // Validation & Errors
-            msgUsernameTaken: '@Localizer["UsernameTaken"]',   // "Username is already taken"
-            msgUsernameLength: '@Localizer["UserNameLength"]'  // "Name must be between 3 and 20 chars"
+            msgUsernameTaken: '@Localizer["UsernameTaken"]',   
+            msgUsernameLength: '@Localizer["UserNameLength"]' 
         };
 
         function getLocalizedTypeName(type) {
@@ -173,13 +171,11 @@
 
         let isEditMode = false;
 
-        // IDs of currently selected items
         let selectedAvatarId = null;
         let selectedFrameId = null;
         let selectedBackgroundId = null;
         let selectedTitleId = null;
 
-        // Picker State
         let pickerCurrentMode = null;
         let pickerSelectedItemId = null;
         let pickerSelectedItemUrl = null;
@@ -188,7 +184,6 @@
         let tempAvatarSelection = { id: null, url: null, name: null };
         let tempFrameSelection = { id: null, url: null, name: null };
 
-        // Original values (snapshot)
         const original = {
             name: document.getElementById('nameView').innerText.trim(),
             titleText: document.getElementById('titleView').innerText.trim(),
@@ -241,7 +236,6 @@
         document.querySelector('.userProfileLastTrains').addEventListener('click', stopPropagationHandler);
         document.querySelector('.userProfileComments').addEventListener('click', stopPropagationHandler);
 
-        // --- 3. CLICK HANDLERS (PICKER) ---
         document.querySelectorAll('[data-edit-type]').forEach(el => {
             el.addEventListener('click', (ev) => {
                 if (!isEditMode) return;
@@ -262,7 +256,6 @@
             openPickerSimple('background');
         });
 
-        // --- 4. PICKER FUNCTIONS ---
         function openPickerSimple(type) {
             const tabsDiv = document.getElementById('pickerTabs');
             tabsDiv.innerHTML = '';
@@ -403,7 +396,6 @@
             return el;
         }
 
-        // --- 5. UPLOAD ---
         const fileInput = document.getElementById('pickerFileUploadInput');
         const uploadBtn = document.getElementById('pickerUploadBtn');
 
@@ -452,7 +444,6 @@
             });
         }
 
-        // --- 6. APPLY & CANCEL ---
         function resetPickerModalState() {
             const overlay = document.getElementById('itemPickerOverlay');
             overlay.classList.add('closing');
@@ -501,7 +492,6 @@
             }
         }
 
-        // --- 7. MAIN SAVE LOGIC ---
         const editBtn = document.getElementById('editToggleBtn');
         if (editBtn) {
             editBtn.addEventListener('click', async (e) => {
@@ -510,23 +500,20 @@
 
                 const currentName = document.getElementById('nameInput').value.trim();
 
-                // >>> CLIENT SIDE VALIDATION <<<
                 const MIN_LENGTH = 3;
                 const MAX_LENGTH = 20;
 
                 if (currentName.length < MIN_LENGTH || currentName.length > MAX_LENGTH) {
                     alertify.error(JS_RESOURCES.msgUsernameLength);
-                    return; // Stop execution
+                    return; 
                 }
 
                 editBtn.disabled = true;
                 editBtn.innerText = JS_RESOURCES.btnSaving;
 
                 try {
-                    // 1. UPDATE USERNAME
                     if (currentName !== original.name) {
                         const nameData = new FormData();
-                        // DTO Property Name: 'UpdatedUserName'
                         nameData.append('UpdatedUserName', currentName); 
                         
                         const nameResponse = await fetch('/updateUserName', { method: 'POST', body: nameData });
@@ -534,7 +521,6 @@
                         if (!nameResponse.ok) {
                             const rawError = await nameResponse.text();
 
-                            // Check for specific error (Username Taken)
                             if (rawError.toLowerCase().includes("taken") || rawError.toLowerCase().includes("already")) {
                                 throw new Error(JS_RESOURCES.msgUsernameTaken);
                             }
@@ -548,7 +534,6 @@
                         }
                     }
 
-                    // 2. UPDATE EQUIPMENT
                     const equipmentPayload = {
                         titleId: selectedTitleId,
                         avatarId: selectedAvatarId,

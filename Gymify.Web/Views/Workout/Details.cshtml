@@ -131,14 +131,12 @@
 
 @section Scripts {
     <script>
-        // --- LOCALIZATION BRIDGE ---
         const JS_RESOURCES = {
             btnEditInfo: '@Localizer["Btn_EditInfo"]',
             btnSaveInfo: '@Localizer["Btn_SaveInfo"]',
             btnSaving: '@Localizer["Btn_Saving"]',
             msgNameRequired: "@Localizer["Msg_NameRequired"]",
             msgUpdateFailed: '@Localizer["Msg_UpdateFailed"]',
-            // Додано повідомлення для видалення
             msgDeleteConfirm: '@Localizer["Msg_DeleteConfirm"]' 
         };
 
@@ -146,7 +144,6 @@
             const btnEdit = document.getElementById("btnEditInfo");
             const btnCancel = document.getElementById("btnCancelInfo");
             
-            // --- ЛОГІКА ВИДАЛЕННЯ ВОРКАУТУ ---
             const btnDeleteWorkout = document.getElementById("btnDeleteWorkout");
             if (btnDeleteWorkout) {
                 btnDeleteWorkout.addEventListener("click", function() {
@@ -154,16 +151,16 @@
                         'Gymify', 
                         JS_RESOURCES.msgDeleteConfirm, 
                         function() { 
-                            // Якщо натиснули ОК - відправляємо форму
+                            
                             document.getElementById("formDeleteWorkout").submit();
                         },
                         function() { 
-                            // Якщо натиснули Cancel - нічого не робимо
+                            
                         }
                     ).set('labels', {ok:'Yes', cancel:'No'});
                 });
             }
-            // ----------------------------------
+            
 
             const els = {
                 name: { 
@@ -209,7 +206,7 @@
                 });
             }
 
-            // 1. Функція для ГЛОБАЛЬНИХ помилок (Alertify)
+            
             function showGlobalError(msg) {
                 if(typeof alertify !== 'undefined') {
                     alertify.error(msg, 5);
@@ -218,11 +215,11 @@
                 }
             }
 
-            // 2. Функція для ВАЛІДАЦІЇ ПОЛІВ (Текст під input)
+            
             function showFieldError(fieldKey, message) {
                 let targetEl = null;
                 
-                // Мапінг ключів DTO на елементи HTML
+                
                 if (fieldKey === "Name") targetEl = els.name.err;
                 else if (fieldKey === "Description") targetEl = els.desc.err;
                 else if (fieldKey === "Conclusion") targetEl = els.conc.err;
@@ -231,7 +228,7 @@
                     targetEl.innerText = message;
                     targetEl.classList.remove("ae-hidden");
                 } else {
-                    // Якщо помилка прийшла, але поля для неї немає (наприклад, якась загальна помилка)
+                    
                     showGlobalError(message);
                 }
             }
@@ -307,7 +304,7 @@
 
                 const nameVal = els.name.input.value.trim();
                 if (!nameVal) { 
-                    showFieldError("Name", JS_RESOURCES.msgNameRequired); // Викликаємо showFieldError
+                    showFieldError("Name", JS_RESOURCES.msgNameRequired); 
                     return; 
                 }
 
@@ -338,12 +335,12 @@
                         btnEdit.innerText = JS_RESOURCES.btnSaveInfo;
 
                         if (data.errors) {
-                            // ТУТ МИ ВИКИДУЄМО ПОМИЛКИ
+                            
                             Object.keys(data.errors).forEach(key => {
                                 const errorMessages = data.errors[key];
                                 const msg = Array.isArray(errorMessages) ? errorMessages.join(". ") : errorMessages;
                                 
-                                // Викликаємо правильну функцію
+                                
                                 showFieldError(key, msg); 
                             });
                         } else {
@@ -358,7 +355,7 @@
                 }
             }
 
-            // ... (код для Exercises partial залишається без змін)
+            
             const btnToggle = document.getElementById("btnToggleEdit");
             const viewContainer = document.getElementById("viewModeContainer");
             const editContainer = document.getElementById("editModeContainer");

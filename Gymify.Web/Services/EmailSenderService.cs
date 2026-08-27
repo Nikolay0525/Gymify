@@ -2,63 +2,62 @@
 using Microsoft.AspNetCore.Identity.UI.Services;
 using MimeKit;
 
-namespace Gymify.Web.Services
+namespace Gymify.Web.Services;
+
+public class EmailSenderService : IEmailSender
 {
-    public class EmailSenderService : IEmailSender
+    private readonly IConfiguration _configuration;
+
+    public EmailSenderService(IConfiguration configuration)
     {
-        private readonly IConfiguration _configuration;
+        _configuration = configuration;
+    }
 
-        public EmailSenderService(IConfiguration configuration)
+    public async Task SendEmailAsync(string email, string subject, string htmlMessage)
+    {
+        var emailSettings = _configuration.GetSection("EmailSettings");
+
+        var message = new MimeMessage();
+
+        message.From.Add(new MailboxAddress(
+            emailSettings["SenderName"],
+            emailSettings["SenderEmail"]
+        ));
+
+        message.To.Add(new MailboxAddress("", email));
+
+        message.Subject = subject;
+
+        var bodyBuilder = new BodyBuilder
         {
-            _configuration = configuration;
-        }
+            HtmlBody = htmlMessage
+        };
+        message.Body = bodyBuilder.ToMessageBody();
 
-        public async Task SendEmailAsync(string email, string subject, string htmlMessage)
+        using (var client = new SmtpClient())
         {
-            var emailSettings = _configuration.GetSection("EmailSettings");
-
-            var message = new MimeMessage();
-
-            message.From.Add(new MailboxAddress(
-                emailSettings["SenderName"],
-                emailSettings["SenderEmail"]
-            ));
-
-            message.To.Add(new MailboxAddress("", email));
-
-            message.Subject = subject;
-
-            var bodyBuilder = new BodyBuilder
+            try
             {
-                HtmlBody = htmlMessage
-            };
-            message.Body = bodyBuilder.ToMessageBody();
+                await client.ConnectAsync(
+                    emailSettings["MailServer"],
+                    int.Parse(emailSettings["MailPort"]),
+                    MailKit.Security.SecureSocketOptions.StartTls
+                );
 
-            using (var client = new SmtpClient())
+                await client.AuthenticateAsync(
+                    emailSettings["SenderEmail"],
+                    emailSettings["Password"]
+                );
+
+                await client.SendAsync(message);
+            }
+            catch (Exception ex)
             {
-                try
-                {
-                    await client.ConnectAsync(
-                        emailSettings["MailServer"],
-                        int.Parse(emailSettings["MailPort"]),
-                        MailKit.Security.SecureSocketOptions.StartTls
-                    );
-
-                    await client.AuthenticateAsync(
-                        emailSettings["SenderEmail"],
-                        emailSettings["Password"]
-                    );
-
-                    await client.SendAsync(message);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"ERROR EMAIL SENDING: {ex.Message}");
-                }
-                finally
-                {
-                    await client.DisconnectAsync(true);
-                }
+                Console.WriteLine($"ERROR EMAIL SENDING: {ex.Message}");
+            }
+            finally
+            {
+                await client.DisconnectAsync(true);
             }
         }
     }

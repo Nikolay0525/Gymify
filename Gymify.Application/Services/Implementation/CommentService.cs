@@ -30,7 +30,7 @@ public class CommentService(IUnitOfWork unitOfWork, INotificationService notific
             TargetType = targetType,
             IsApproved = comment.IsApproved,
             IsRejected = comment.IsRejected
-        }).Where(comment => comment.IsRejected == false).ToList(); // Я вообще ХЗ як бути...
+        }).Where(comment => comment.IsRejected == false).ToList(); 
 
         return commentDtos;
     }
@@ -52,7 +52,7 @@ public class CommentService(IUnitOfWork unitOfWork, INotificationService notific
             AuthorAvatarUrl = avatarUrl,
             TargetId = targetId,
             TargetType = targetType,
-            CanDelete = true // Автор завжди може видалити свій коментар
+            CanDelete = true 
         };
 
         await CreateCommentAsync(commentDto);

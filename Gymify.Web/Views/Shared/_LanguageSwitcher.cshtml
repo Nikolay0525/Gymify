@@ -13,7 +13,6 @@
         .ToList();
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"{Context.Request.Path}{Context.Request.QueryString}";
     
-    // Поточна культура
     var currentCultureName = requestCulture?.RequestCulture.UICulture.Name;
 }
 

@@ -4,55 +4,54 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gymify.Tests
+namespace Gymify.Tests;
+
+public class CommentTests : BaseTests
 {
-    public class CommentTests : BaseTests
+    [Test]
+    public async Task UserCanPostEditAndDeleteCommentFromFeed()
     {
-        [Test]
-        public async Task UserCanPostEditAndDeleteCommentFromFeed()
-        {
-            await PerformLoginWithTestData();
+        await PerformLoginWithTestData();
 
-            await Expect(Page.Locator(".dashboard-wrapper")).ToBeVisibleAsync();
+        await Expect(Page.Locator(".dashboard-wrapper")).ToBeVisibleAsync();
 
-            await Page.GotoAsync($"{BaseUrl}/WorkoutsFeed");
+        await Page.GotoAsync($"{BaseUrl}/WorkoutsFeed");
 
-            await Page.SelectOptionAsync("#filter-type", "all");
+        await Page.SelectOptionAsync("#filter-type", "all");
 
-            var firstWorkoutCard = Page.Locator(".workout-card-row").First;
-            await Expect(firstWorkoutCard).ToBeVisibleAsync();
+        var firstWorkoutCard = Page.Locator(".workout-card-row").First;
+        await Expect(firstWorkoutCard).ToBeVisibleAsync();
 
-            await firstWorkoutCard.ClickAsync();
-            await Expect(Page).ToHaveURLAsync(new Regex(@".*/Workout/Details.*"));
+        await firstWorkoutCard.ClickAsync();
+        await Expect(Page).ToHaveURLAsync(new Regex(@".*/Workout/Details.*"));
 
-            var commentText = $"Test Comment {Guid.NewGuid().ToString().Substring(0, 6)}";
+        var commentText = $"Test Comment {Guid.NewGuid().ToString().Substring(0, 6)}";
 
-            await Page.FillAsync("#coContentInput", commentText);
+        await Page.FillAsync("#coContentInput", commentText);
 
-            var postBtn = Page.Locator("#coBtnPost");
-            await Expect(postBtn).ToBeEnabledAsync();
-            await postBtn.ClickAsync();
+        var postBtn = Page.Locator("#coBtnPost");
+        await Expect(postBtn).ToBeEnabledAsync();
+        await postBtn.ClickAsync();
 
-            var commentItem = Page.Locator($".co-item:has-text('{commentText}')").First;
-            await Expect(commentItem).ToBeVisibleAsync();
+        var commentItem = Page.Locator($".co-item:has-text('{commentText}')").First;
+        await Expect(commentItem).ToBeVisibleAsync();
 
-            await commentItem.Locator("button:has-text('Edit')").ClickAsync();
+        await commentItem.Locator("button:has-text('Edit')").ClickAsync();
 
-            var editTextarea = commentItem.Locator(".co-edit-textarea");
-            await Expect(editTextarea).ToBeVisibleAsync();
+        var editTextarea = commentItem.Locator(".co-edit-textarea");
+        await Expect(editTextarea).ToBeVisibleAsync();
 
-            var updatedText = commentText + " (Edited)";
-            await editTextarea.FillAsync(updatedText);
+        var updatedText = commentText + " (Edited)";
+        await editTextarea.FillAsync(updatedText);
 
-            await commentItem.Locator("button:has-text('Save')").ClickAsync();
+        await commentItem.Locator("button:has-text('Save')").ClickAsync();
 
-            await Expect(commentItem.Locator(".co-text")).ToHaveTextAsync(updatedText);
+        await Expect(commentItem.Locator(".co-text")).ToHaveTextAsync(updatedText);
 
-            await commentItem.Locator("button.delete").ClickAsync();
+        await commentItem.Locator("button.delete").ClickAsync();
 
-            await Page.ClickAsync("button.ajs-button.ajs-ok");
+        await Page.ClickAsync("button.ajs-button.ajs-ok");
 
-            await Expect(commentItem).Not.ToBeVisibleAsync();
-        }
+        await Expect(commentItem).Not.ToBeVisibleAsync();
     }
 }

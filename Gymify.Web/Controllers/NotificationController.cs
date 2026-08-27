@@ -19,13 +19,11 @@ namespace Gymify.Web.Controllers
         {
             try
             {
-                // Позначаємо конкретне повідомлення як прочитане
                 await _notificationService.MarkAsReadAsync(id);
                 return Ok();
             }
             catch (Exception ex)
             {
-                // Логування помилки, якщо потрібно
                 return BadRequest(new { message = ex.Message });
             }
         }
@@ -35,7 +33,6 @@ namespace Gymify.Web.Controllers
         {
             try
             {
-                // Отримуємо ID поточного профілю
                 var userIdClaim = User.FindFirst("UserProfileId");
 
                 if (userIdClaim == null)
@@ -45,7 +42,6 @@ namespace Gymify.Web.Controllers
 
                 var userId = Guid.Parse(userIdClaim.Value);
 
-                // Позначаємо всі повідомлення цього юзера як прочитані
                 await _notificationService.MarkAllAsReadAsync(userId);
 
                 return Ok();

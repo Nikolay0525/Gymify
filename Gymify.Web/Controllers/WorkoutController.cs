@@ -62,7 +62,7 @@ namespace Gymify.Web.Controllers
             }
             catch
             {
-                return RedirectToAction("Index", "Main"); // треба якось хендлити
+                return RedirectToAction("Index", "Main");
             }
         }
 
@@ -147,15 +147,15 @@ namespace Gymify.Web.Controllers
             }
             catch (KeyNotFoundException)
             {
-                return NotFound(); // 404 Page
+                return NotFound();
             }
             catch (UnauthorizedAccessException)
             {
-                return Forbid(); // 403 Page (або Redirect на Home з помилкою)
+                return Forbid();
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message); // 400 Bad Request
+                return BadRequest(ex.Message);
             }
         }
 
@@ -177,8 +177,6 @@ namespace Gymify.Web.Controllers
                                            kvp => kvp.Key,
                                            kvp => kvp.Value.Errors.Select(e => e.ErrorMessage).ToList()
                                        );
-
-                NotifyModelStateErrors();
 
                 return BadRequest(new { success = false, message = "Validation Error", errors = errors });
             }

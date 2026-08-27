@@ -10,7 +10,7 @@ namespace Gymify.Application.DTOs.Auth
         public string Email { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Required")]
-        [MinLength(6, ErrorMessage = "PasswordLength")]
+        [StringLength(100, MinimumLength = 6, ErrorMessage = "PasswordLength")]
         [Display(Name = "Password")]
         public string Password { get; set; } = string.Empty;
 

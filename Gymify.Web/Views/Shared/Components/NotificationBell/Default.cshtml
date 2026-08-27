@@ -45,10 +45,8 @@
 </div>
 
 <script>
-    // --- LOCALIZATION CONFIG ---
     const NT_CONFIG = {
         justNow: '@Localizer["Label_JustNow"]',
-        // Отримуємо код мови ("uk" або "en") для вибору правильного поля з SignalR об'єкта
         langCode: '@CultureInfo.CurrentCulture.TwoLetterISOLanguageName' 
     };
 
@@ -59,7 +57,6 @@
         btn.classList.toggle('active');
     }
 
-    // Закриття при кліку зовні
     window.addEventListener('click', function(e) {
         const wrapper = document.getElementById('ntWrapper');
         if (!wrapper.contains(e.target)) {
@@ -107,15 +104,12 @@
         }
     }
 
-    // Функція, що викликається з Layout при отриманні SignalR повідомлення
     window.receiveNotificationUI = function(data) {
         const list = document.getElementById("ntList");
         const empty = list.querySelector('.nt-empty');
 
-        // Визначаємо текст повідомлення на основі поточної культури
         let message = (NT_CONFIG.langCode === 'uk') ? data.messageUk : data.messageEn;
         
-        // Фолбек: якщо потрібної мови немає, беремо будь-яку доступну
         if (!message) message = data.messageEn || data.messageUk;
 
         if (empty) empty.remove();
@@ -133,7 +127,6 @@
         list.insertAdjacentHTML('afterbegin', html);
         updateBadge(1);
 
-        // Анімація дзвіночка
         const btn = document.getElementById('ntBtn');
         btn.style.transform = "scale(1.2) rotate(15deg)";
         setTimeout(() => btn.style.transform = "scale(1) rotate(0)", 300);

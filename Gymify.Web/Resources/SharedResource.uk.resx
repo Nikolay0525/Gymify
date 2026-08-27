@@ -123,10 +123,6 @@
   <data name="EmailInvalid" xml:space="preserve">
     <value>Введіть коректну електронну пошту.</value>
   </data>
-  <data name="Msg_DurationPositive" xml:space="preserve">
-    <value>Тривалість у хвилинах має бути невід'ємним числом.</value>
-    <comment>Серверна валідація DTO (Data Annotation).</comment>
-  </data>
   <data name="Msg_ExerciseNameRequired" xml:space="preserve">
     <value>Будь ласка, введіть назву вправи.</value>
     <comment>Клієнтська (JS) та Серверна (DTO) валідація.</comment>
@@ -148,14 +144,6 @@
     <value>Кожна вправа повинна мати принаймні одне позитивне значення (повторення, вага або тривалість).</value>
     <comment>Валідація на рівні бізнес-логіки в контролері.</comment>
   </data>
-  <data name="Msg_RepsPositive" xml:space="preserve">
-    <value>Кількість повторень має бути невід'ємним числом.</value>
-    <comment>Серверна валідація DTO (Data Annotation).</comment>
-  </data>
-  <data name="Msg_SetsMustBePositive" xml:space="preserve">
-    <value>Кількість підходів має бути від 1 до 100.</value>
-    <comment>Серверна валідація DTO (Data Annotation).</comment>
-  </data>
   <data name="Msg_SetsRequired" xml:space="preserve">
     <value>Кількість підходів (Sets) є обов'язковою.</value>
     <comment>Серверна валідація DTO.</comment>
@@ -164,16 +152,12 @@
     <value>Не вдалося зберегти вправи через помилки:</value>
     <comment>Заголовок для повідомлення про помилку валідації в alertify.</comment>
   </data>
-  <data name="Msg_WeightPositive" xml:space="preserve">
-    <value>Вага має бути невід'ємним числом.</value>
-    <comment>Серверна валідація DTO (Data Annotation).</comment>
-  </data>
   <data name="NameLength" xml:space="preserve">
     <value>Назва має бути від {2} до {1} символів.</value>
     <comment>{1} – Макс. довжина, {2} – Мін. довжина</comment>
   </data>
   <data name="PasswordLength" xml:space="preserve">
-    <value>Пароль повинен мати мінімум {1} символів.</value>
+    <value>Пароль має бути від {2} до {1} символів.</value>
     <comment>{1} – Мінімальна довжина</comment>
   </data>
   <data name="PasswordMismatch" xml:space="preserve">
@@ -189,5 +173,21 @@
   </data>
   <data name="UsernameLettersNumbersUnderscores" xml:space="preserve">
     <value>Нікнейм може мати лише літери, цифри, та підкреслення</value>
+  </data>
+  <data name="Msg_RepsRange" xml:space="preserve">
+    <value>Кількість повторень має бути від {1} до {2} разів.</value>
+    <comment>Серверна валідація DTO (Data Annotation).</comment>
+  </data>
+  <data name="Msg_SetsRange" xml:space="preserve">
+    <value>Кількість сетів має бути від {1} до {2}.</value>
+    <comment>Серверна валідація DTO (Data Annotation).</comment>
+  </data>
+  <data name="Msg_WeightRange" xml:space="preserve">
+    <value>Вага має бути від {1} до {2} кілограмів.</value>
+    <comment>Серверна валідація DTO (Data Annotation).</comment>
+  </data>
+  <data name="Msg_DurationRange" xml:space="preserve">
+    <value>Тривалість має бути в діапазоні від {1} до {2} хвилин.</value>
+    <comment>Серверна валідація DTO (Data Annotation).</comment>
   </data>
 </root>
